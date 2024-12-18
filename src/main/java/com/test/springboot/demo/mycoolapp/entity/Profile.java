@@ -13,4 +13,5 @@ public class Profile {
     private String username;
     private int age;
     private String bio;
+    private String email;
 }
