@@ -1,11 +1,9 @@
 package com.test.springboot.demo.mycoolapp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "user_match")
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
