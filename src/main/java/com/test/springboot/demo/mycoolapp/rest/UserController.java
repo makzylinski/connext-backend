@@ -1,6 +1,7 @@
 package com.test.springboot.demo.mycoolapp.rest;
 
 import com.test.springboot.demo.mycoolapp.entity.User;
+import com.test.springboot.demo.mycoolapp.model.Role;
 import com.test.springboot.demo.mycoolapp.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,13 @@ public class UserController {
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            if (user.getRole() == null) {
+                user.setRole(Role.USER);
+            }
+        }
+        return users;
     }
 
     @PostMapping
