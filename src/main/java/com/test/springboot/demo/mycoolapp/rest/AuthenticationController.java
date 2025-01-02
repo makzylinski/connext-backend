@@ -2,6 +2,7 @@ package com.test.springboot.demo.mycoolapp.rest;
 
 import com.test.springboot.demo.mycoolapp.entity.User;
 import com.test.springboot.demo.mycoolapp.model.AuthenticationResponse;
+import com.test.springboot.demo.mycoolapp.model.LoginRequest;
 import com.test.springboot.demo.mycoolapp.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +26,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(
-            @RequestBody User request
-    ) {
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.authenticate(request));
     }
 }

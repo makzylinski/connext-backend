@@ -2,6 +2,7 @@ package com.test.springboot.demo.mycoolapp.service;
 
 import com.test.springboot.demo.mycoolapp.entity.User;
 import com.test.springboot.demo.mycoolapp.model.AuthenticationResponse;
+import com.test.springboot.demo.mycoolapp.model.LoginRequest;
 import com.test.springboot.demo.mycoolapp.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,7 +38,7 @@ public class AuthenticationService {
         return new AuthenticationResponse(token);
     }
 
-    public AuthenticationResponse authenticate(User request) {
+    public AuthenticationResponse authenticate(LoginRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
         User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
