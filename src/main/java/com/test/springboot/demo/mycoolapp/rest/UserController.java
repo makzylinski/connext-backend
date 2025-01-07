@@ -1,13 +1,14 @@
 package com.test.springboot.demo.mycoolapp.rest;
 
 import com.test.springboot.demo.mycoolapp.entity.User;
-import com.test.springboot.demo.mycoolapp.model.Role;
+import com.test.springboot.demo.mycoolapp.model.UserResponse;
 import com.test.springboot.demo.mycoolapp.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -17,14 +18,17 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
         List<User> users = userRepository.findAll();
-        for (User user : users) {
-            if (user.getRole() == null) {
-                user.setRole(Role.USER);
-            }
-        }
-        return users;
+        return users.stream().map(user -> {
+            UserResponse response = new UserResponse();
+            response.setId(user.getId());
+            response.setUsername(user.getUsername());
+            response.setEmail(user.getEmail());
+            response.setRole(user.getRole() != null ? user.getRole().name() : "USER");
+            response.setDateOfBirth(user.getDateOfBirth());
+            return response;
+        }).collect(Collectors.toList());
     }
 
     @PostMapping

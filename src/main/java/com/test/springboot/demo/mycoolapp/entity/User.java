@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -38,7 +39,7 @@ public class User implements UserDetails {
 
     @Column(name = "date_of_birth")
     @NotBlank(message = "Date of birth is required")
-    private int dateOfBirth;
+    private Date dateOfBirth;
 
     @Column(name = "bio")
     private String bio;
@@ -112,4 +113,7 @@ public class User implements UserDetails {
         return true;
     }
 
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
 }
