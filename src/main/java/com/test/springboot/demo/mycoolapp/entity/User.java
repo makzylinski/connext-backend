@@ -36,6 +36,14 @@ public class User implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    @Column(name = "date_of_birth")
+    @NotBlank(message = "Date of birth is required")
+    private int dateOfBirth;
+
+    @Column(name = "bio")
+    private String bio;
+
+
     public User() {
     }
 
