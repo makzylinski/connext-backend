@@ -38,7 +38,7 @@ public class User implements UserDetails {
     private Role role;
 
     @Column(name = "date_of_birth")
-    @NotBlank(message = "Date of birth is required")
+//    @NotBlank(message = "Date of birth is required")
     private Date dateOfBirth;
 
     @Column(name = "bio")
@@ -88,6 +88,13 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public Date setDateOfBirth(Date dateOfBirth) {
+        return this.dateOfBirth = dateOfBirth;
+    }
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -113,7 +120,4 @@ public class User implements UserDetails {
         return true;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
 }
