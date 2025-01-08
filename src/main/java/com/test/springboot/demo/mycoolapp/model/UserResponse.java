@@ -9,7 +9,7 @@ public class UserResponse {
     private String role;
     private Date dateOfBirth;
     private String bio;
-
+    private String profileImageUrl;
     public Integer getId() {
         return id;
     }
@@ -56,5 +56,12 @@ public class UserResponse {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }

@@ -44,6 +44,8 @@ public class User implements UserDetails {
     @Column(name = "bio")
     private String bio;
 
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
 
     public User() {
     }
@@ -88,11 +90,19 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public Date setDateOfBirth(Date dateOfBirth) {
-        return this.dateOfBirth = dateOfBirth;
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
     public Date getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
     @Override
