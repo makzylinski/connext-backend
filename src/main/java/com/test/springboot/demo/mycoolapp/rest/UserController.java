@@ -46,11 +46,16 @@ public class UserController {
     @PostMapping("/uploadProfileImage")
     public ResponseEntity<String> uploadProfileImage(@RequestParam("userId") Integer userId, @RequestParam("file") MultipartFile file) {
         String fileName = saveFile(file);
-        String fileUrl = "/images/" + fileName;
+        String fileUrl = "http://localhost:8080/images/" + fileName;
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         user.setProfileImageUrl(fileUrl);
         userRepository.save(user);
         return ResponseEntity.ok(fileUrl);
+    }
+    @GetMapping("/profileImage")
+    public ResponseEntity<String> getProfileImage(@RequestParam("userId") Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return ResponseEntity.ok(user.getProfileImageUrl());
     }
 
     private String saveFile(MultipartFile file) {
