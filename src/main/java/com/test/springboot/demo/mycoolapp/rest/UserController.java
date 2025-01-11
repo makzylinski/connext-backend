@@ -59,7 +59,7 @@ public class UserController {
     }
 
     private String saveFile(MultipartFile file) {
-        String uploadDir = "assets/";
+        String uploadDir = "src/main/resources/images/";
 
         File directory = new File(uploadDir);
         if (!directory.exists()) {
