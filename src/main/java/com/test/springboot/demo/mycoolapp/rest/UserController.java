@@ -52,6 +52,14 @@ public class UserController {
         userRepository.save(user);
         return ResponseEntity.ok(fileUrl);
     }
+
+    @PostMapping("/addBio")
+    public ResponseEntity<String> addBio(@RequestParam("userId") Integer userId, @RequestParam("bio") String bio) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setBio(bio);
+        userRepository.save(user);
+        return ResponseEntity.ok(bio);
+    }
     @GetMapping("/profileImage")
     public ResponseEntity<String> getProfileImage(@RequestParam("userId") Integer userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
