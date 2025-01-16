@@ -68,6 +68,14 @@ public class UserController {
 //        return ResponseEntity.ok(user.getBio());
 //    }
 
+    @PutMapping("/name-change")
+    public ResponseEntity<String> changeName(@RequestParam("userId") Integer userId, @RequestParam("newName") String newName) {
+       User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+       user.setUsername(newName);
+       userRepository.save(user);
+       return ResponseEntity.ok(newName);
+    }
+
     @GetMapping("/profileImage")
     public ResponseEntity<String> getProfileImage(@RequestParam("userId") Integer userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
