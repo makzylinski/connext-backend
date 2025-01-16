@@ -60,6 +60,14 @@ public class UserController {
         userRepository.save(user);
         return ResponseEntity.ok(bio);
     }
+
+    // Not sure if I need this endpoint
+//    @GetMapping("/get-bio")
+//    public ResponseEntity<String> getBio(@RequestParam("userId") Integer userId) {
+//        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+//        return ResponseEntity.ok(user.getBio());
+//    }
+
     @GetMapping("/profileImage")
     public ResponseEntity<String> getProfileImage(@RequestParam("userId") Integer userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
