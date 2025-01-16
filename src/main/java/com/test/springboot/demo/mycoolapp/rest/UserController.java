@@ -53,7 +53,7 @@ public class UserController {
         return ResponseEntity.ok(fileUrl);
     }
 
-    @PostMapping("/addBio")
+    @PostMapping("/add-bio")
     public ResponseEntity<String> addBio(@RequestParam("userId") Integer userId, @RequestParam("bio") String bio) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         user.setBio(bio);
