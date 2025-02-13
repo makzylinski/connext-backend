@@ -15,6 +15,7 @@ public class Match {
     @ElementCollection
     private List<Integer> acceptedList = new ArrayList<>();
 
+    public Match() {}
     public Match(ArrayList<Integer> acceptedList) {
         this.acceptedList = acceptedList;
     }
