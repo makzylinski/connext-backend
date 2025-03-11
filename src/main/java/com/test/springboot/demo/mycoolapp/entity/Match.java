@@ -1,7 +1,5 @@
 package com.test.springboot.demo.mycoolapp.entity;
-
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +8,15 @@ import java.util.List;
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer userId;
 
     @ElementCollection
     private List<Integer> acceptedList = new ArrayList<>();
 
-    public Match() {}
-    public Match(ArrayList<Integer> acceptedList) {
+    public Match() {
+    }
+
+    public Match(List<Integer> acceptedList) {
         this.acceptedList = acceptedList;
     }
 
@@ -27,5 +27,16 @@ public class Match {
             acceptedList.add(userId);
         }
     }
-//    addToAcceptedList
+
+    public List<Integer> getAcceptedList() {
+        return acceptedList;
+    }
+
+    public Integer getId() {
+        return userId;
+    }
+
+    public void setId(Integer id) {
+        this.userId = id;
+    }
 }

@@ -34,5 +34,4 @@ public class MatchController {
         matchRepository.save(match);
         return ResponseEntity.ok(new ResponseMessage("User accepted"));
     }
-
 }
