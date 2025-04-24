@@ -28,7 +28,6 @@ public class MatchController {
     @PostMapping("/accept")
     public ResponseEntity<ResponseMessage> acceptUser(@RequestParam("matchId") Integer matchId) {
         Integer userId = userService.getCurrentUserId();
-//        Match match = matchRepository.findById(matchId);
         Match match = matchRepository.findById(matchId).orElseGet(() -> new Match(new ArrayList<>()));
         match.addToAcceptedList(userId);
         matchRepository.save(match);

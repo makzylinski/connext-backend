@@ -3,6 +3,7 @@ package com.test.springboot.demo.mycoolapp.rest;
 import com.test.springboot.demo.mycoolapp.entity.User;
 import com.test.springboot.demo.mycoolapp.model.UserResponse;
 import com.test.springboot.demo.mycoolapp.repository.UserRepository;
+import com.test.springboot.demo.mycoolapp.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +25,13 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
-    public List<UserResponse> getAllUsers() {
-        List<User> users = userRepository.findAll();
+    public List<UserResponse> getUsersWithoutPair() {
+        Integer currentUserId = userService.getCurrentUserId();
+        List<User> users = userRepository.findUsersWithoutPair(currentUserId);
         return users.stream().map(user -> {
             UserResponse response = new UserResponse();
             response.setId(user.getId());
