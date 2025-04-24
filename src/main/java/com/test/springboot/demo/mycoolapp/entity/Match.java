@@ -11,6 +11,7 @@ public class Match {
     private Integer userId;
 
     @ElementCollection
+    @Column(name = "accepted_list")
     private List<Integer> acceptedList = new ArrayList<>();
 
     public Match() {

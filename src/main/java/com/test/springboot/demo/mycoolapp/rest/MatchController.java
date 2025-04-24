@@ -34,4 +34,12 @@ public class MatchController {
         matchRepository.save(match);
         return ResponseEntity.ok(new ResponseMessage("User accepted"));
     }
+
+    @GetMapping("/pairs")
+    public List<Match> getMutualLikes() {
+        Integer currentUserId = userService.getCurrentUserId();
+        Match currentUserMatch = matchRepository.findById(currentUserId).orElse(new Match());
+        List<Integer> likedUserIds = currentUserMatch.getAcceptedList();
+        return matchRepository.findMutualLikes(currentUserId, likedUserIds);
+    }
 }
