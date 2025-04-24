@@ -1,8 +1,10 @@
 package com.test.springboot.demo.mycoolapp.rest;
 
 import com.test.springboot.demo.mycoolapp.entity.Match;
+import com.test.springboot.demo.mycoolapp.entity.User;
 import com.test.springboot.demo.mycoolapp.model.ResponseMessage;
 import com.test.springboot.demo.mycoolapp.repository.MatchRepository;
+import com.test.springboot.demo.mycoolapp.repository.UserRepository;
 import com.test.springboot.demo.mycoolapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ public class MatchController {
 
     @Autowired
     private MatchRepository matchRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -35,10 +40,19 @@ public class MatchController {
     }
 
     @GetMapping("/pairs")
-    public List<Match> getMutualLikes() {
+    public List<User> getMutualLikes() {
         Integer currentUserId = userService.getCurrentUserId();
         Match currentUserMatch = matchRepository.findById(currentUserId).orElse(new Match());
         List<Integer> likedUserIds = currentUserMatch.getAcceptedList();
-        return matchRepository.findMutualLikes(currentUserId, likedUserIds);
+        List<User> mutualLikes = new ArrayList<>();
+
+        for (Integer likedUserId : likedUserIds) {
+            Match likedUserMatch = matchRepository.findById(likedUserId).orElse(new Match());
+            if (likedUserMatch.getAcceptedList().contains(currentUserId)) {
+                userRepository.findById(likedUserId).ifPresent(mutualLikes::add);
+            }
+        }
+
+        return mutualLikes;
     }
 }
