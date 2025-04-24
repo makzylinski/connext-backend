@@ -1,8 +1,8 @@
 package com.test.springboot.demo.mycoolapp.rest;
 
 import com.test.springboot.demo.mycoolapp.entity.Match;
-import com.test.springboot.demo.mycoolapp.entity.User;
 import com.test.springboot.demo.mycoolapp.model.ResponseMessage;
+import com.test.springboot.demo.mycoolapp.model.UserResponse;
 import com.test.springboot.demo.mycoolapp.repository.MatchRepository;
 import com.test.springboot.demo.mycoolapp.repository.UserRepository;
 import com.test.springboot.demo.mycoolapp.service.UserService;
@@ -40,16 +40,26 @@ public class MatchController {
     }
 
     @GetMapping("/pairs")
-    public List<User> getMutualLikes() {
+    public List<UserResponse> getMutualLikes() {
         Integer currentUserId = userService.getCurrentUserId();
         Match currentUserMatch = matchRepository.findById(currentUserId).orElse(new Match());
         List<Integer> likedUserIds = currentUserMatch.getAcceptedList();
-        List<User> mutualLikes = new ArrayList<>();
+        List<UserResponse> mutualLikes = new ArrayList<>();
 
         for (Integer likedUserId : likedUserIds) {
             Match likedUserMatch = matchRepository.findById(likedUserId).orElse(new Match());
             if (likedUserMatch.getAcceptedList().contains(currentUserId)) {
-                userRepository.findById(likedUserId).ifPresent(mutualLikes::add);
+                userRepository.findById(likedUserId).ifPresent(user -> {
+                    UserResponse response = new UserResponse();
+                    response.setId(user.getId());
+                    response.setUsername(user.getUsername());
+                    response.setEmail(user.getEmail());
+                    response.setBio(user.getBio());
+                    response.setProfileImageUrl(user.getProfileImageUrl());
+                    response.setDateOfBirth(user.getDateOfBirth());
+                    response.setRole(user.getRole() != null ? user.getRole().name() : "USER");
+                    mutualLikes.add(response);
+                });
             }
         }
 
