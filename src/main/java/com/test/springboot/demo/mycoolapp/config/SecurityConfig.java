@@ -37,6 +37,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/login", "/register").permitAll()
                                 .requestMatchers("/images/**").permitAll()
+                                .requestMatchers("/ws/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
