@@ -66,22 +66,6 @@ public class UserController {
         return ResponseEntity.ok(bio);
     }
 
-    // Not sure if I need this endpoint
-//    @GetMapping("/get-bio")
-//    public ResponseEntity<String> getBio(@RequestParam("userId") Integer userId) {
-//        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-//        return ResponseEntity.ok(user.getBio());
-//    }
-
-    // Not sure if I need this endpoint either
-//    @PutMapping("/name-change")
-//    public ResponseEntity<String> changeName(@RequestParam("userId") Integer userId, @RequestParam("newName") String newName) {
-//       User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-//       user.setUsername(newName);
-//       userRepository.save(user);
-//       return ResponseEntity.ok(newName);
-//    }
-
     @GetMapping("/profileImage")
     public ResponseEntity<String> getProfileImage(@RequestParam("userId") Integer userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
