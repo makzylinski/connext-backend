@@ -42,14 +42,14 @@ public class ChatSocketHandler extends TextWebSocketHandler {
         ChatMessage chatMessage = objectMapper.readValue(message.getPayload(), ChatMessage.class);
 
         MessageEntity entity = new MessageEntity(
-                chatMessage.getSender(),
-                chatMessage.getRecipient(),
+                chatMessage.getSenderId(),
+                chatMessage.getRecipientId(),
                 chatMessage.getContent(),
                 LocalDateTime.now()
         );
         messageRepository.save(entity);
 
-        WebSocketSession recipientSession = userSessions.get(chatMessage.getRecipient());
+        WebSocketSession recipientSession = userSessions.get(chatMessage.getRecipientId());
         if (recipientSession != null && recipientSession.isOpen()) {
             recipientSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessage)));
         }
