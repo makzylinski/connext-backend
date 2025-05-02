@@ -49,9 +49,10 @@ public class ChatSocketHandler extends TextWebSocketHandler {
         );
         messageRepository.save(entity);
 
-        WebSocketSession recipientSession = userSessions.get(chatMessage.getRecipientId());
-        if (recipientSession != null && recipientSession.isOpen()) {
-            recipientSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessage)));
+        for (WebSocketSession sess : sessions) {
+            if (sess.isOpen()) {
+                sess.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessage)));
+            }
         }
     }
 
