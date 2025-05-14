@@ -6,17 +6,16 @@ public class MessageDTO {
     private Long id;
     private String content;
     private LocalDateTime timestamp;
-    private UserDTO sender;
-    private UserDTO recipient;
+    private UserDTO conversationPartner;
 
     public MessageDTO() {}
 
-    public MessageDTO(Long id, String content, LocalDateTime timestamp, UserDTO sender, UserDTO recipient) {
+    public MessageDTO(Long id, String content, LocalDateTime timestamp, UserDTO conversationPartner) {
         this.id = id;
         this.content = content;
         this.timestamp = timestamp;
-        this.sender = sender;
-        this.recipient = recipient;
+        this.conversationPartner = conversationPartner;
+
     }
 
     public Long getId() {
@@ -43,21 +42,12 @@ public class MessageDTO {
         this.timestamp = timestamp;
     }
 
-    public UserDTO getSender() {
-        return sender;
+    public UserDTO getConversationPartner() {
+        return conversationPartner;
     }
 
-    public void setSender(UserDTO sender) {
-        this.sender = sender;
+    public void setConversationPartner(UserDTO conversationPartner) {
+        this.conversationPartner = conversationPartner;
     }
-
-    public UserDTO getRecipient() {
-        return recipient;
-    }
-
-    public void setRecipient(UserDTO recipient) {
-        this.recipient = recipient;
-    }
-
 
 }
