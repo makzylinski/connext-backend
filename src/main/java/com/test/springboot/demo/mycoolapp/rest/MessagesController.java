@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/messages")
@@ -23,8 +24,21 @@ public class MessagesController {
     }
 
     @GetMapping("/{userId}")
-    public List<MessageEntity> getMessages(@PathVariable Long userId) {
+    public List<MessageDTO> getMessages(@PathVariable Long userId) {
         Integer currentUserId = userService.getCurrentUserId();
-        return messageRepository.findConversationsBetweenUsers(userId, Long.valueOf(currentUserId));
+        List<MessageEntity> messages = messageRepository.findConversationsBetweenUsers(userId, Long.valueOf(currentUserId));
+
+        return messages.stream().map(message -> {
+            UserDTO sender = userService.getUserDTOById(message.getSenderId());
+            UserDTO recipient = userService.getUserDTOById(message.getRecipientId());
+
+            return new MessageDTO(
+                    message.getId(),
+                    message.getContent(),
+                    message.getTimestamp(),
+                    sender,
+                    recipient
+            );
+        }).collect(Collectors.toList());
     }
 }
