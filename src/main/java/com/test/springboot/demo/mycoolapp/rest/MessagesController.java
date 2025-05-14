@@ -25,18 +25,20 @@ public class MessagesController {
 
     @GetMapping("/{userId}")
     public List<MessageDTO> getMessages(@PathVariable Long userId) {
-        Long currentUserId = Long.valueOf(userService.getCurrentUserId());
-        List<MessageEntity> messages = messageRepository.findConversationsBetweenUsers(userId, currentUserId);
+        Integer currentUserId = userService.getCurrentUserId();
+        List<MessageEntity> messages = messageRepository.findConversationsBetweenUsers(userId, Long.valueOf(currentUserId));
 
-        UserDTO conversationPartner = userService.getUserDTOById(userId);
+        return messages.stream().map(message -> {
+            UserDTO sender = userService.getUserDTOById(message.getSenderId());
+            UserDTO recipient = userService.getUserDTOById(message.getRecipientId());
 
-        return messages.stream().map(message ->
-                new MessageDTO(
-                        message.getId(),
-                        message.getContent(),
-                        message.getTimestamp(),
-                        conversationPartner
-                )
-        ).collect(Collectors.toList());
+            return new MessageDTO(
+                    message.getId(),
+                    message.getContent(),
+                    message.getTimestamp(),
+                    sender,
+                    recipient
+            );
+        }).collect(Collectors.toList());
     }
 }
