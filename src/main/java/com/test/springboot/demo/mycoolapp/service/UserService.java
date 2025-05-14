@@ -2,6 +2,7 @@ package com.test.springboot.demo.mycoolapp.service;
 
 import com.test.springboot.demo.mycoolapp.entity.User;
 import com.test.springboot.demo.mycoolapp.repository.UserRepository;
+import com.test.springboot.demo.mycoolapp.rest.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,5 +27,15 @@ public class UserService {
             }
         }
         throw new RuntimeException("User not authenticated");
+    }
+
+    public UserDTO getUserDTOById(Long userId) {
+        User user = userRepository.findById(Math.toIntExact(userId)).orElseThrow(() -> new RuntimeException("User not found"));
+
+        return new UserDTO(
+            user.getId(),
+            user.getUsername(),
+                user.getProfileImageUrl()
+        );
     }
 }

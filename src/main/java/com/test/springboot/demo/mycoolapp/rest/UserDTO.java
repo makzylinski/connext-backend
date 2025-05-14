@@ -1,22 +1,22 @@
 package com.test.springboot.demo.mycoolapp.rest;
 
 public class UserDTO {
-    private Long id;
+    private Integer id;
     private String username;
     private String profileImageUrl;
 
-    public UserDTO() {}
 
-    public UserDTO(Long id, String username, String email) {
+    public UserDTO(Integer id, String username, String profileImageUrl) {
         this.id = id;
         this.username = username;
+        this.profileImageUrl = profileImageUrl;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
