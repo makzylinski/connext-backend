@@ -58,6 +58,7 @@ public class MatchController {
                     response.setProfileImageUrl(user.getProfileImageUrl());
                     response.setDateOfBirth(user.getDateOfBirth());
                     response.setRole(user.getRole() != null ? user.getRole().name() : "USER");
+                    response.setLatestMessage("test");
                     mutualLikes.add(response);
                 });
             }
