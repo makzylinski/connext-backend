@@ -1,12 +1,17 @@
 package com.test.springboot.demo.mycoolapp.rest;
 
 import com.test.springboot.demo.mycoolapp.entity.Match;
+import com.test.springboot.demo.mycoolapp.entity.MessageEntity;
 import com.test.springboot.demo.mycoolapp.model.ResponseMessage;
 import com.test.springboot.demo.mycoolapp.model.UserResponse;
 import com.test.springboot.demo.mycoolapp.repository.MatchRepository;
+import com.test.springboot.demo.mycoolapp.repository.MessageRepository;
 import com.test.springboot.demo.mycoolapp.repository.UserRepository;
 import com.test.springboot.demo.mycoolapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +30,10 @@ public class MatchController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MessageRepository messageRepository;
+
     @GetMapping
     public List<Match> getAllMatches() {
         return matchRepository.findAll();
@@ -48,6 +57,10 @@ public class MatchController {
 
         for (Integer likedUserId : likedUserIds) {
             Match likedUserMatch = matchRepository.findById(likedUserId).orElse(new Match());
+            Pageable pageable = PageRequest.of(0, 1, Sort.by("timestamp").descending());
+            List<MessageEntity> messages = messageRepository.findMessagesBetweenUsersOrderByTimestampDesc(currentUserId.longValue(), likedUserId.longValue(), pageable );
+            MessageEntity lastMessage = messages.isEmpty() ? null : messages.get(0);
+
             if (likedUserMatch.getAcceptedList().contains(currentUserId)) {
                 userRepository.findById(likedUserId).ifPresent(user -> {
                     UserResponse response = new UserResponse();
@@ -58,6 +71,7 @@ public class MatchController {
                     response.setProfileImageUrl(user.getProfileImageUrl());
                     response.setDateOfBirth(user.getDateOfBirth());
                     response.setRole(user.getRole() != null ? user.getRole().name() : "USER");
+                    response.setLatestMessage(lastMessage != null ? lastMessage.getContent() : null);
                     mutualLikes.add(response);
                 });
             }

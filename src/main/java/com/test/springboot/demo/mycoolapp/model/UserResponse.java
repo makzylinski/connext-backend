@@ -10,6 +10,14 @@ public class UserResponse {
     private Date dateOfBirth;
     private String bio;
     private String profileImageUrl;
+    private String latestMessage;
+
+    public String getLatestMessage() {
+        return latestMessage;
+    }
+    public void setLatestMessage(String latestMessage) {
+        this.latestMessage = latestMessage;
+    }
     public Integer getId() {
         return id;
     }
