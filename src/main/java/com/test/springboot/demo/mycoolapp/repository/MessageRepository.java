@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
@@ -14,4 +15,13 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
             "ORDER BY m.timestamp ASC")
 
     List<MessageEntity> findConversationsBetweenUsers(@Param("user1") Long user1, @Param("user2") Long user2);
+
+    @Query("SELECT m FROM MessageEntity m WHERE " +
+            "(m.sender_id = :user1 AND m.recipient_id = :user2) OR " +
+            "(m.sender_id = :user2 AND m.recipient_id = :user1) " +
+            "ORDER BY m.timestamp DESC")
+    List<MessageEntity> findMessagesBetweenUsersOrderByTimestampDesc(@Param("user1") Long user1,
+                                                                     @Param("user2") Long user2,
+                                                                     Pageable pageable);
+
 }
