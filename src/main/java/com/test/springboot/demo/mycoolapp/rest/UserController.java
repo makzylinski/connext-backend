@@ -6,6 +6,7 @@ import com.test.springboot.demo.mycoolapp.repository.UserRepository;
 import com.test.springboot.demo.mycoolapp.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,7 +65,17 @@ public class UserController {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         user.setBio(bio);
         userRepository.save(user);
-        return ResponseEntity.ok(bio);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("\"" + bio + "\"");
+    }
+
+    @PostMapping("/add-birth-date")
+    public ResponseEntity<Date> addBirthDate(@RequestParam("userId") Integer userId, @RequestParam("dateOfBirth") Date dateOfBirth) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setDateOfBirth(dateOfBirth);
+        userRepository.save(user);
+        return ResponseEntity.ok(dateOfBirth);
     }
 
     @GetMapping("/profileImage")
