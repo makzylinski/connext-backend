@@ -71,11 +71,12 @@ public class UserController {
     }
 
     @PostMapping("/add-birth-date")
-    public ResponseEntity<Date> addBirthDate(@RequestParam("userId") Integer userId, @RequestParam("dateOfBirth") Date dateOfBirth) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setDateOfBirth(dateOfBirth);
+    public ResponseEntity<Date> addBirthDate(@RequestBody DateDTO dto) {
+        Integer currentUserId = userService.getCurrentUserId();
+        User user = userRepository.findById(currentUserId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setDateOfBirth(dto.date);
         userRepository.save(user);
-        return ResponseEntity.ok(dateOfBirth);
+        return ResponseEntity.ok(dto.date);
     }
 
     @GetMapping("/profileImage")
